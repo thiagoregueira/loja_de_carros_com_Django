@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dark-mode .card-body {
+            color: #333;
+        }
+
+        header {
+            background-color: #0096c7;
+            color: #fff;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #ccc;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        nav {
+            background-color: #0096c7;
+            color: #fff;
+            height: 50px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .dark-mode-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .dark-mode-button span {
+            margin-right: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #32bbe8;
+        }
+
+        nav ul li.active a {
+            background-color: #666;
+        }
+
+        nav ul li.active a:hover {
+            background-color: #999;
+        }
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const body = document.getElementsByTagName('body')[0];
+            const moonEmoji = document.createElement('span');
+            moonEmoji.innerHTML = "&#127769;";
+            moonEmoji.style.cursor = "pointer";
+
+            const darkModeButton = document.createElement('a');
+            darkModeButton.classList.add('dark-mode-button');
+            darkModeButton.appendChild(moonEmoji);
+
+            darkModeButton.addEventListener('click', function () {
+                body.classList.toggle('dark-mode');
+                const cardBodies = document.getElementsByClassName('card-body');
+                for (let i = 0; i < cardBodies.length; i++) {
+                    cardBodies[i].classList.toggle('text-dark');
+                }
+            });
+
+            const navElement = document.querySelector('header nav');
+            navElement.appendChild(darkModeButton);
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                <li>Olá, {{ user.username }}!</li>
+                <li><a href="{% url 'new_car' %}">Cadastrar Novo Carro</a></li>
+                {% endif %}
+
+                {% if not user.is_authenticated %}
+                <li><a href="{% url 'register' %}">Cadastre-se</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+
+                <li><a href="{% url 'cars_list' %}">Carros</a></li>
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 - Carros</p>
+    </footer>
+
+</body>
+
+</html>

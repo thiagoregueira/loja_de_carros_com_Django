@@ -1,0 +1,112 @@
+<!-- base.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+Carros
+{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+    }
+
+    .card:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .search-form input[type="text"],
+    .search-form button[type="submit"] {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        border: 1px solid black;
+    }
+
+    .search-form input[type="text"] {
+        width: 250px;
+    }
+
+    .search-form button[type="submit"] {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+    }
+
+    .search-form button[type="submit"]:hover {
+        background-color: royalblue;
+    }
+
+    .search-form button[type="submit"]:active {
+        background-color: deepskyblue;
+    }
+
+    a {
+        font-size: 18px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: skyblue;
+    }
+    
+</style>
+</head>
+
+<body>
+    {% load static %}
+
+    <div class="container">
+
+        <div class="search-form">
+            <form action="{% url 'cars_list' %}" method="GET">
+                <input type="text" name="search" placeholder="Buscar carro...">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+    
+        <h1>Carros</h1>
+        <div class="row">
+            {% if cars %}
+            {% for car in cars %}
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="{% url 'car_detail' car.pk %}" class="card-link">
+                        {% if car.photo %}
+                        <img src="{{ car.photo.url }}" alt="Car Photo" class="card-img-top">
+                        {% else %}
+                        <img src="{% static 'placeholder.jpg' %}" alt="Foto não disponível" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ car.model }}</h5>
+                            <p class="card-text"><strong>Marca: </strong>{{ car.brand.name }}</p>
+                            <p class="card-text"><strong>Ano Modelo: </strong>{{ car.model_year }}</p>
+                            {% if car.value %}
+                            <p class="card-text"><strong>Valor: </strong>R$ {{ car.value }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Nenhum carro encontrado.</p>
+            {% endif %}
+        </div>
+        {% endblock %}
+    </div>
+</body>
+
+</html>

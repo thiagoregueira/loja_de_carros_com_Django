@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Editar Carro
+{% endblock %}
+
+{% block content %}
+<style>
+    .form-label {
+        display: block;
+        font-weight: bold;
+    }
+
+    .form-separator {
+        border-top: 1px solid #ddd;
+        margin: 20px 0;
+    }
+
+    .form-spacing {
+        margin-bottom: 20px;
+    }
+</style>
+<h1>Editar Carro</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-spacing">
+        <label for="{{ form.model.id_for_label }}" class="form-label">{{ form.model.label }}</label>
+        {{ form.model }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div class="form-spacing">
+        <label for="{{ form.brand.id_for_label }}" class="form-label">{{ form.brand.label }}</label>
+        {{ form.brand }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div class="form-spacing">
+        <label for="{{ form.factory_year.id_for_label }}" class="form-label">{{ form.factory_year.label }}</label>
+        {{ form.factory_year }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div class="form-spacing">
+        <label for="{{ form.model_year.id_for_label }}" class="form-label">{{ form.model_year.label }}</label>
+        {{ form.model_year }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div class="form-spacing">
+        <label for="{{ form.plate.id_for_label }}" class="form-label">{{ form.plate.label }}</label>
+        {{ form.plate }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div class="form-spacing">
+        <label for="{{ form.value.id_for_label }}" class="form-label">{{ form.value.label }}</label>
+        {{ form.value }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div class="form-spacing">
+        <label for="{{ form.photo.id_for_label }}" class="form-label">{{ form.photo.label }}</label>
+        {{ form.photo }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div class="form-spacing">
+        <label for="{{ form.bio.id_for_label }}" class="form-label">{{ form.bio.label }}</label>
+        {{ form.bio }}
+    </div>
+
+    <div class="form-separator"></div>
+
+    <div>
+        <div class="buttons-container">
+            <input type="submit" value="Salvar Alterações" class="btn btn-primary">
+            <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+            <a href="{% url 'cars_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

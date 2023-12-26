@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Deletar Carro
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .btn-danger:hover {
+        background-color: darkred;
+    }
+</style>
+
+<h1>Deletar Carro</h1>
+<form method="POST">
+    {% csrf_token %}
+    <p>Tem certeza que deseja deletar o carro <strong> {{ object }} da montadora {{ object.brand }} </strong>?</p>
+    <button type="submit" class="btn btn-danger">Deletar Carro</button>
+    <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+{% endblock %}
